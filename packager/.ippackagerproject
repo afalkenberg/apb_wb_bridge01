@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<ippackgerproject version="1.0">
+    <filegroups>
+        <filegroup filetype="metadata">
+            <file path="metadata.xml"/>
+        </filegroup>
+        <filegroup filetype="sub_metadata">
+            <file path="bus_interface.xml"/>
+            <file path="memory_map.xml"/>
+        </filegroup>
+        <filegroup filetype="rtl">
+            <file lib="" type="vhdl" encryption="0" path="../apb_wb_bridge.vhd"/>
+        </filegroup>
+        <filegroup filetype="testbench">
+            <file lib="" type="vhdl" encryption="0" path="../apb_host_stim.vhd"/>
+            <file lib="" type="vhdl" encryption="0" path="../io_utils.vhd"/>
+            <file lib="" type="vhdl" encryption="0" path="../tb_apb_wb_bridge.vhd"/>
+            <file lib="" type="vhdl" encryption="0" path="../wb_target_mem.vhd"/>
+        </filegroup>
+        <filegroup filetype="doc">
+            <file path="doc/introduction.html"/>
+        </filegroup>
+        <filegroup filetype="plugin">
+            <file encryption="0" path="plugin/plugin.py"/>
+        </filegroup>
+        <filegroup filetype="key">
+            <file path="../../../../lscc/propel/2024.1/builder/rtf/ispfpga/data/key.txt"/>
+        </filegroup>
+    </filegroups>
+</ippackgerproject>

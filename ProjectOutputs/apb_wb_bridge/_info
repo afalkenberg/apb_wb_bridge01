@@ -1,0 +1,264 @@
+m255
+K4
+z2
+!s11e MIXED_VERSIONS
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/ProjectOutputs
+Eapb_host_stim
+Z1 w1739256706
+Z2 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z4 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 11
+R0
+Z5 8C:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\apb_host_stim.vhd
+Z6 FC:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\apb_host_stim.vhd
+l0
+L5 1
+V>cTd6PXl^<AHfI`12TY=G1
+!s100 YP=7EFTX@HJPF`mnc?1R<3
+Z7 OL;C;2024.2;79
+31
+Z8 !s110 1739258583
+!i10b 1
+Z9 !s108 1739258583.000000
+Z10 !s90 -work|apb_wb_bridge|-93|-source|C:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\apb_host_stim.vhd|
+Z11 !s107 C:\\ECAD\\FPGA_Designs\\IP Cores\\apb_wb_bridge\\apb_host_stim.vhd|
+!i113 0
+Z12 o-work apb_wb_bridge -93 -source
+Z13 tExplicit 1 CvgOpt 0
+Abehavioral
+R2
+R3
+R4
+DEx4 work 13 apb_host_stim 0 22 >cTd6PXl^<AHfI`12TY=G1
+!i122 11
+l51
+L24 130
+V8?kOaMzjZKCk3<DaRAMW51
+!s100 `2D^gaoiiOLmW2>L8H>6P3
+R7
+31
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 0
+R12
+R13
+Eapb_wb_bridge
+Z14 w1739245438
+R2
+R3
+R4
+!i122 14
+R0
+Z15 8C:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\apb_wb_bridge.vhd
+Z16 FC:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\apb_wb_bridge.vhd
+l0
+L5 1
+V`6=Dmbe?kbDo<5A?<;TEl0
+!s100 @NOCVH3aC2hS2Rf>Rg=^[2
+R7
+31
+Z17 !s110 1739258584
+!i10b 1
+Z18 !s108 1739258584.000000
+Z19 !s90 -work|apb_wb_bridge|-93|-source|C:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\apb_wb_bridge.vhd|
+Z20 !s107 C:\\ECAD\\FPGA_Designs\\IP Cores\\apb_wb_bridge\\apb_wb_bridge.vhd|
+!i113 0
+R12
+R13
+Abehavioral
+R2
+R3
+R4
+DEx4 work 13 apb_wb_bridge 0 22 `6=Dmbe?kbDo<5A?<;TEl0
+!i122 14
+l46
+L44 41
+Vn;5dlQ`b52GbL3Wz]^hSW3
+!s100 FQc^e@gYjl89_fO15dRO>3
+R7
+31
+R17
+!i10b 1
+R18
+R19
+R20
+!i113 0
+R12
+R13
+Pio_utils
+R3
+!i122 12
+Z21 w1738967325
+R0
+Z22 8C:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\io_utils.vhd
+Z23 FC:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\io_utils.vhd
+l0
+L15 30
+VNazTn]N:;H=YVkZ2`jXza1
+!s100 `5h88<[ZlP449]?m^1K7b3
+R7
+31
+b1
+R8
+!i10b 1
+R9
+Z24 !s90 -work|apb_wb_bridge|-93|-source|C:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\io_utils.vhd|
+Z25 !s107 C:\\ECAD\\FPGA_Designs\\IP Cores\\apb_wb_bridge\\io_utils.vhd|
+!i113 0
+R12
+R13
+Bbody
+Z26 DPx4 work 8 io_utils 0 22 NazTn]N:;H=YVkZ2`jXza1
+R3
+!i122 12
+l0
+L46 194
+VZJ2M3hf@jLbb0JCHED`3k1
+!s100 jb4N?1ozRN6]>N==LNZ_K0
+R7
+31
+R8
+!i10b 1
+R9
+R24
+R25
+!i113 0
+R12
+R13
+Etb_apb_wb_bridge
+Z27 w1739257861
+R26
+R2
+R3
+R4
+!i122 15
+R0
+Z28 8C:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\tb_apb_wb_bridge.vhdtst
+Z29 FC:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\tb_apb_wb_bridge.vhdtst
+l0
+L8 1
+V`SDMigZ^4?>SEfe0l6Y1H1
+!s100 fb]VkkX8<=Oi2WITChk1N0
+R7
+31
+R17
+!i10b 1
+R18
+Z30 !s90 -work|apb_wb_bridge|-93|-source|C:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\tb_apb_wb_bridge.vhdtst|
+Z31 !s107 C:\\ECAD\\FPGA_Designs\\IP Cores\\apb_wb_bridge\\tb_apb_wb_bridge.vhdtst|
+!i113 0
+R12
+R13
+Asim
+R26
+R2
+R3
+R4
+Z32 DEx4 work 16 tb_apb_wb_bridge 0 22 `SDMigZ^4?>SEfe0l6Y1H1
+!i122 15
+l127
+Z33 L11 264
+VOSKXLNSn:jA_K420j62mH3
+!s100 09ob?2z=;QUB85FGen19i1
+R7
+31
+R17
+!i10b 1
+R18
+R30
+R31
+!i113 0
+R12
+R13
+Etest
+R21
+!i122 12
+R0
+R22
+R23
+l0
+L244 1
+V7OV7JH999SBclC73jUA0:1
+!s100 <j6E;3^YJm^[JTS^;74?]1
+R7
+31
+R8
+!i10b 1
+R9
+R24
+R25
+!i113 0
+R12
+R13
+Ahex_test
+DEx4 work 4 test 0 22 7OV7JH999SBclC73jUA0:1
+R26
+R3
+!i122 12
+l249
+L248 27
+V2=SR;iLK4V3a=bPTEd@>K0
+!s100 `o]O@KeSKPnU0XaKIl>3M1
+R7
+31
+R8
+!i10b 1
+R9
+R24
+R25
+!i113 0
+R12
+R13
+Ewb_target_mem
+Z34 w1739246680
+R2
+R3
+R4
+!i122 13
+R0
+Z35 8C:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\wb_target_mem.vhd
+Z36 FC:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\wb_target_mem.vhd
+l0
+L5 1
+Vm6`6`2=5ZBJZ2>HQ;hNV;0
+!s100 o[_Bbk@z82gFUUj?FBBgj2
+R7
+31
+R17
+!i10b 1
+R9
+Z37 !s90 -work|apb_wb_bridge|-93|-source|C:\ECAD\FPGA_Designs\IP Cores\apb_wb_bridge\wb_target_mem.vhd|
+Z38 !s107 C:\\ECAD\\FPGA_Designs\\IP Cores\\apb_wb_bridge\\wb_target_mem.vhd|
+!i113 0
+R12
+R13
+Abehavioral
+R2
+R3
+R4
+DEx4 work 13 wb_target_mem 0 22 m6`6`2=5ZBJZ2>HQ;hNV;0
+!i122 13
+l35
+L24 72
+VfZfZhXSMJh8JY`H_d^XBV2
+!s100 bTJB;7b:?lTbH;>dW8ilI0
+R7
+31
+R17
+!i10b 1
+R9
+R37
+R38
+!i113 0
+R12
+R13

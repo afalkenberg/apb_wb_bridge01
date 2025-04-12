@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<lscc:hdlparseresult version="1.0">
+    <modules>
+        <module name="apb_wb_bridge">
+            <ports>
+                <port dir="in" name="apb_pclk_i"/>
+                <port dir="in" name="apb_resetn_i"/>
+                <port dir="in" range="(31,0)" name="apb_addr_i"/>
+                <port dir="in" name="apb_pselx_i"/>
+                <port dir="in" name="apb_penable_i"/>
+                <port dir="in" name="apb_pwrite_i"/>
+                <port dir="in" range="(31,0)" name="apb_pwdata_i"/>
+                <port dir="out" name="apb_pready_o"/>
+                <port dir="out" range="(31,0)" name="apb_prdata_o"/>
+                <port dir="out" name="apb_pslverr_o"/>
+                <port dir="out" name="wb_clk_o"/>
+                <port dir="out" name="wb_rst_o"/>
+                <port dir="out" name="wb_cyc_o"/>
+                <port dir="out" name="wb_stb_o"/>
+                <port dir="out" name="wb_we_o"/>
+                <port dir="out" range="(4,0)" name="wb_adr_o"/>
+                <port dir="out" range="(7,0)" name="wb_dat_o"/>
+                <port dir="in" range="(7,0)" name="wb_dat_i"/>
+                <port dir="in" name="wb_ack_i"/>
+            </ports>
+        </module>
+    </modules>
+</lscc:hdlparseresult>

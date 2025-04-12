@@ -1,0 +1,13 @@
+
+<lsccip:memoryMaps xmlns:lsccip="http://www.latticesemi.com/XMLSchema/Radiant/ip">
+    <lsccip:memoryMap>
+        <lsccip:name>wb_mem_map</lsccip:name>
+        <lsccip:description>wb_mem_map</lsccip:description>
+        <lsccip:addressBlock>
+            <lsccip:name>wb_address_block</lsccip:name>
+            <lsccip:baseAddress>0</lsccip:baseAddress>
+            <lsccip:range>addr_range_byte(SLAVE_ADDR_WIDTH, ADDRESSING_MODE)</lsccip:range>
+            <lsccip:width>(SLAVE_DATA_WIDTH)</lsccip:width>
+        </lsccip:addressBlock>
+    </lsccip:memoryMap>
+</lsccip:memoryMaps>

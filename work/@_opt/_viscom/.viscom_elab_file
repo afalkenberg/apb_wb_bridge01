@@ -1,0 +1,1 @@
+C:/ECAD/lscc/diamond/3.14/questasim/win64/VisualizerRls/bin/viscom.exe -nolock -quiet -jmem_size 16072992 work.tb_apb_wb_bridge -quiet -auto_acc_if_foreign -work work -allow_unnamed -o _opt -id 1-64006a83e536-67aaf83b-19e-682c {+__design_bin_path+C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge}

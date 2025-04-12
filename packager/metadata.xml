@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<lsccip:ip xmlns:lsccip="http://www.latticesemi.com/XMLSchema/Radiant/ip" xmlns:xi="http://www.w3.org/2001/XInclude" version="2.0" platform="Propel" platform_version="2024.1">
+    <lsccip:general>
+        <lsccip:vendor>JordanDSP LLC</lsccip:vendor>
+        <lsccip:library>ip</lsccip:library>
+        <lsccip:name>apb_wb_bridge</lsccip:name>
+        <lsccip:display_name>APB Wishbone Bridge</lsccip:display_name>
+        <lsccip:version>0.1.3</lsccip:version>
+        <lsccip:category>Processors_Controllers_and_Peripherals</lsccip:category>
+        <lsccip:keywords>Wishbone, APB</lsccip:keywords>
+        <lsccip:instantiatedOnce>true</lsccip:instantiatedOnce>
+        <lsccip:min_radiant_version>2024.1</lsccip:min_radiant_version>
+        <lsccip:min_esi_version>2024.1</lsccip:min_esi_version>
+        <lsccip:supported_products>
+            <lsccip:supported_family name="*" />
+        </lsccip:supported_products>
+        <lsccip:supported_platforms>
+            <lsccip:supported_platform name="esi" />
+        </lsccip:supported_platforms>
+    </lsccip:general>
+    <lsccip:settings>
+        <lsccip:setting id="APB_ENABLE"
+                        type="param"
+                        value_type="bool"
+                        conn_mod="apb_wb_bridge"
+                        title="Enable APB"
+                        default="True"
+                        editable="False"
+                        group1="BUS"
+                        group2="HOST"
+         />
+        <lsccip:setting id="HOST_ADDR_WIDTH"
+                        type="param"
+                        value_type="int"
+                        conn_mod="apb_wb_bridge"
+                        title="HOST_ADDR_WIDTH"
+                        default="32"
+                        value_range="(SLAVE_ADDR_WIDTH+2, 32)"
+                        group1="BUS"
+                        group2="HOST"
+         />
+        <lsccip:setting id="HOST_DATA_WIDTH"
+                        type="param"
+                        value_type="int"
+                        conn_mod="apb_wb_bridge"
+                        title="HOST_DATA_WIDTH"
+                        default="32"
+                        options="[8, 16, 32]"
+                        editable="True"
+                        group1="BUS"
+                        group2="HOST"
+         />
+        <lsccip:setting id="WB_ENABLE"
+                        type="param"
+                        value_type="bool"
+                        conn_mod="apb_wb_bridge"
+                        title="Enable Wishbone"
+                        default="True"
+                        editable="False"
+                        group1="BUS"
+                        group2="SLAVE"
+         />
+        <lsccip:setting id="SLAVE_ADDR_WIDTH"
+                        type="param"
+                        value_type="int"
+                        conn_mod="apb_wb_bridge"
+                        title="SLAVE_ADDR_WIDTH"
+                        default="8"
+                        value_range="(1, HOST_ADDR_WIDTH-2)"
+                        group1="BUS"
+                        group2="SLAVE"
+         />
+        <lsccip:setting id="SLAVE_DATA_WIDTH"
+                        type="param"
+                        value_type="int"
+                        conn_mod="apb_wb_bridge"
+                        title="SLAVE_DATA_WIDTH"
+                        default="8"
+                        options="[8, 16, 32]"
+                        editable="True"
+                        drc="(SLAVE_DATA_WIDTH &lt;= HOST_DATA_WIDTH)"
+                        group1="BUS"
+                        group2="SLAVE"
+         />
+        <lsccip:setting id="ADDRESSING_MODE"
+                        type="param"
+                        value_type="string"
+                        conn_mod="apb_wb_bridge"
+                        title="Addressing Mode"
+                        value_expr="addressing_mode(SLAVE_DATA_WIDTH, HOST_DATA_WIDTH)"
+                        editable="False"
+                        group1="BUS"
+                        group2="SLAVE"
+         />
+    </lsccip:settings>
+    <lsccip:ports>
+        <lsccip:port name="apb_pclk_i"
+                     dir="in"
+                     conn_mod="apb_wb_bridge"
+                     conn_port="apb_pclk_i"
+                     port_type="clock"
+         />
+        <lsccip:port name="apb_resetn_i"
+                     dir="in"
+                     conn_mod="apb_wb_bridge"
+                     conn_port="apb_resetn_i"
+                     port_type="reset"
+         />
+        <lsccip:port name="apb_paddr_i"
+                     dir="in"
+                     conn_mod="apb_wb_bridge"
+                     range="(HOST_ADDR_WIDTH-1,0)"
+                     conn_port="apb_addr_i"
+                     stick_low="not APB_ENABLE"
+                     bus_interface="APB_S0"
+         />
+        <lsccip:port name="apb_pselx_i"
+                     dir="in"
+                     conn_mod="apb_wb_bridge"
+                     conn_port="apb_pselx_i"
+                     stick_low="not APB_ENABLE"
+                     bus_interface="APB_S0"
+         />
+        <lsccip:port name="apb_penable_i"
+                     dir="in"
+                     conn_mod="apb_wb_bridge"
+                     conn_port="apb_penable_i"
+                     stick_low="not APB_ENABLE"
+                     bus_interface="APB_S0"
+         />
+        <lsccip:port name="apb_pwrite_i"
+                     dir="in"
+                     conn_mod="apb_wb_bridge"
+                     conn_port="apb_pwrite_i"
+                     stick_low="not APB_ENABLE"
+                     bus_interface="APB_S0"
+         />
+        <lsccip:port name="apb_pwdata_i"
+                     dir="in"
+                     conn_mod="apb_wb_bridge"
+                     range="(HOST_DATA_WIDTH-1,0)"
+                     conn_port="apb_pwdata_i"
+                     stick_low="not APB_ENABLE"
+                     bus_interface="APB_S0"
+                     port_type="data"
+         />
+        <lsccip:port name="apb_pready_o"
+                     dir="out"
+                     conn_mod="apb_wb_bridge"
+                     conn_port="apb_pready_o"
+                     stick_low="not APB_ENABLE"
+                     bus_interface="APB_S0"
+         />
+        <lsccip:port name="apb_prdata_o"
+                     dir="out"
+                     conn_mod="apb_wb_bridge"
+                     range="(HOST_DATA_WIDTH-1,0)"
+                     conn_port="apb_prdata_o"
+                     stick_low="not APB_ENABLE"
+                     bus_interface="APB_S0"
+         />
+        <lsccip:port name="apb_pslverr_o"
+                     dir="out"
+                     conn_mod="apb_wb_bridge"
+                     conn_port="apb_pslverr_o"
+                     stick_low="not APB_ENABLE"
+                     bus_interface="APB_S0"
+         />
+        <lsccip:port name="wb_clk_o"
+                     dir="out"
+                     conn_mod="apb_wb_bridge"
+                     conn_port="wb_clk_o"
+                     port_type="clock"
+         />
+        <lsccip:port name="wb_rst_o"
+                     dir="out"
+                     conn_mod="apb_wb_bridge"
+                     conn_port="wb_rst_o"
+                     port_type="reset"
+         />
+        <lsccip:port name="wb_cyc_o"
+                     dir="out"
+                     conn_mod="apb_wb_bridge"
+                     conn_port="wb_cyc_o"
+                     stick_low="not WB_ENABLE"
+         />
+        <lsccip:port name="wb_stb_o"
+                     dir="out"
+                     conn_mod="apb_wb_bridge"
+                     conn_port="wb_stb_o"
+                     stick_low="not WB_ENABLE"
+         />
+        <lsccip:port name="wb_we_o"
+                     dir="out"
+                     conn_mod="apb_wb_bridge"
+                     conn_port="wb_we_o"
+                     stick_low="not WB_ENABLE"
+         />
+        <lsccip:port name="wb_adr_o"
+                     dir="out"
+                     conn_mod="apb_wb_bridge"
+                     range="(SLAVE_ADDR_WIDTH-1,0)"
+                     conn_port="wb_adr_o"
+                     stick_low="not WB_ENABLE"
+         />
+        <lsccip:port name="wb_dat_o"
+                     dir="out"
+                     conn_mod="apb_wb_bridge"
+                     range="(SLAVE_DATA_WIDTH-1,0)"
+                     conn_port="wb_dat_o"
+                     stick_low="not WB_ENABLE"
+         />
+        <lsccip:port name="wb_dat_i"
+                     dir="in"
+                     conn_mod="apb_wb_bridge"
+                     range="(SLAVE_DATA_WIDTH-1,0)"
+                     conn_port="wb_dat_i"
+                     stick_low="not WB_ENABLE"
+         />
+        <lsccip:port name="wb_ack_i"
+                     dir="in"
+                     conn_mod="apb_wb_bridge"
+                     conn_port="wb_ack_i"
+                     stick_low="not WB_ENABLE"
+         />
+    </lsccip:ports>
+    <lsccip:outFileConfigs>
+        <lsccip:fileConfig name="wrapper" />
+    </lsccip:outFileConfigs>
+    <xi:include parse="xml" href="bus_interface.xml" />
+    <xi:include parse="xml" href="memory_map.xml" />
+</lsccip:ip>

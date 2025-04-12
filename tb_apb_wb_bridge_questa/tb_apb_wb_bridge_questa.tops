@@ -1,0 +1,2 @@
+apb_wb_bridge,/,C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/impl1/source/apb_wb_bridge.vhd
+wb_target_mem,/,C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/impl1/source/wb_target_mem.vhd

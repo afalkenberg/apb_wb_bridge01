@@ -4,11 +4,14 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity apb_wb_bridge is
     generic (
+		APB_ENABLE : boolean := True;
+		WB_ENABLE : boolean := True;
         HOST_ADDR_WIDTH : integer := 32;
         SLAVE_DATA_WIDTH : integer := 8;
         HOST_DATA_WIDTH : integer := 32;
         SLAVE_ADDR_WIDTH : integer := 5;
         ADDRESSING_MODE : string := "byte" -- byte addressing, 16-bit lword, or 32-bit int
+		--SLAVE_INTERRUPTS : integer := 4
     );
     port (
         -- System CLK/RST
@@ -33,11 +36,11 @@ entity apb_wb_bridge is
         wb_adr_o    : out std_logic_vector(SLAVE_ADDR_WIDTH-1 downto 0);
         wb_dat_o    : out std_logic_vector(SLAVE_DATA_WIDTH-1 downto 0);
         wb_dat_i    : in  std_logic_vector(SLAVE_DATA_WIDTH-1 downto 0);
-        wb_ack_i    : in  std_logic;
+        wb_ack_i    : in  std_logic
         
         -- Interrupts
-        apb_int_o   : out std_logic;
-        wb_int_i    : in std_logic
+        --apb_int_o   : out std_logic_vector(SLAVE_INTERRUPTS-1 downto 0);
+        --wb_int_i    : in std_logic_vector(SLAVE_INTERRUPTS-1 downto 0)
     );
 end apb_wb_bridge;
 
@@ -50,14 +53,23 @@ begin
 
     -- Map APB address to Wishbone address
     byte_addressing: if ADDRESSING_MODE = "byte" generate
+		assert ((HOST_ADDR_WIDTH+2) >= SLAVE_DATA_WIDTH)
+			report "APB_WB_BRIDGE: Byte addressing requires at least 2-bits wider HOST_ADDR_WIDTH than SLAVE_ADDR_WIDTH"
+			severity FAILURE;
         wb_adr_o <= apb_addr_i(SLAVE_ADDR_WIDTH+1 downto 2);
     end generate byte_addressing;
     
     short_addressing: if ADDRESSING_MODE = "lword" generate
+		assert ((HOST_ADDR_WIDTH+1) >= SLAVE_DATA_WIDTH)
+			report "APB_WB_BRIDGE: Lword addressing requires at least 1-bit wider HOST_ADDR_WIDTH than SLAVE_ADDR_WIDTH"
+			severity FAILURE;
         wb_adr_o <= apb_addr_i(SLAVE_ADDR_WIDTH downto 1);
     end generate short_addressing;
     
     int_addressing: if ADDRESSING_MODE = "int" generate
+		assert ((HOST_ADDR_WIDTH) >= SLAVE_DATA_WIDTH)
+			report "APB_WB_BRIDGE: Int addressing requires HOST_ADDR_WIDTH >= SLAVE_ADDR_WIDTH"
+			severity FAILURE;
         wb_adr_o <= apb_addr_i(SLAVE_ADDR_WIDTH-1 downto 0);
     end generate int_addressing;
     
@@ -69,7 +81,7 @@ begin
     wb_we_o <= apb_pwrite_i;
 
     -- Map APB write data to Wishbone data (only least significant byte)
-    wb_dat_o(SLAVE_DATA_WIDTH-1 downto 0) <= apb_pwdata_i(SLAVE_DATA_WIDTH-1 downto 0);
+    wb_dat_o <= apb_pwdata_i(SLAVE_DATA_WIDTH-1 downto 0);
 
     -- Map Wishbone acknowledge to APB ready signal
     apb_pready_o <= wb_ack_i and apb_penable_i;
@@ -80,6 +92,9 @@ begin
 
     -- APB slave error fixed to 0
     apb_pslverr_o <= '0';
+	
+	-- WB to APB Interrupt pass-through
+	--apb_int_o <= wb_int_i;
 
 end Behavioral;
 

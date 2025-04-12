@@ -1,0 +1,19 @@
+if {![file exists "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/tb_apb_wb_bridge_questa/tb_apb_wb_bridge_questa.mpf"]} { 
+	project new "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/tb_apb_wb_bridge_questa" tb_apb_wb_bridge_questa
+	project addfile "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/tb_apb_wb_bridge_questa/apb_wb_bridge.vhd"
+	project addfile "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/tb_apb_wb_bridge_questa/wb_target_mem.vhd"
+	project addfile "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/tb_apb_wb_bridge_questa/tb_apb_wb_bridge.vhd"
+	vlib  work
+	vdel -lib work -all 
+	vlib work
+	vcom -work work "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/tb_apb_wb_bridge_questa/apb_wb_bridge.vhd"
+	vcom -work work "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/tb_apb_wb_bridge_questa/wb_target_mem.vhd"
+	vcom -work work "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/tb_apb_wb_bridge_questa/tb_apb_wb_bridge.vhd"
+} else {
+	project open "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/tb_apb_wb_bridge_questa/tb_apb_wb_bridge_questa"
+	project compileoutofdate
+}
+vsim -voptargs=+acc -L work -L pmi_work -L ovi_machxo2  apb_wb_bridge
+view wave
+add wave /*
+run 1000ns

@@ -1,0 +1,282 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+use std.textio.all;         -- For file I/O
+--use IEEE.STD_LOGIC_TEXTIO.ALL;  -- For writing std_logic_vector as text
+use work.io_utils.all;
+
+entity tb_apb_wb_bridge is
+end tb_apb_wb_bridge;
+
+architecture sim of tb_apb_wb_bridge is
+    constant WB_ADDR_BITS : integer := 5;
+    constant WB_DATA_BITS : integer := 8;
+    constant HOST_ADDR_BITS : integer := 32;
+    constant HOST_DATA_BITS : integer := 32;
+    -- APB interface signals
+    signal apb_pclk    : std_logic ;
+    signal apb_resetn  : std_logic ;
+    signal apb_addr    : std_logic_vector(HOST_ADDR_BITS-1 downto 0) ;
+    signal apb_pselx   : std_logic ;
+    signal apb_penable : std_logic ;
+    signal apb_pwrite  : std_logic ;
+    signal apb_pwdata  : std_logic_vector(HOST_DATA_BITS-1 downto 0) ;
+    signal apb_pready  : std_logic;
+    signal apb_prdata  : std_logic_vector(HOST_DATA_BITS-1 downto 0) ;
+    signal apb_pslverr : std_logic;
+    signal apb_int     : std_logic;
+    
+    -- Wishbone interface signals (internal connections)
+    signal wb_clk        : std_logic ;
+    signal wb_rst        : std_logic ;
+    signal wb_cyc        : std_logic ;
+    signal wb_stb        : std_logic ;
+    signal wb_we         : std_logic ;
+    signal wb_adr        : std_logic_vector(WB_ADDR_BITS-1 downto 0) ;
+    signal wb_dat_miso   : std_logic_vector(WB_DATA_BITS-1 downto 0) ;  -- From bridge (for write)
+    signal wb_dat_mosi   : std_logic_vector(WB_DATA_BITS-1 downto 0) ;  -- To bridge (read data from target)
+    signal wb_ack        : std_logic ;
+    signal wb_int        : std_logic ;  -- From target
+
+    --signal clk_enable    : std_logic ;
+    signal test_adv      : std_logic ;
+    signal done          : std_logic ;
+    signal no_ack_error  : std_logic ;
+
+    component apb_wb_bridge
+         generic (
+             HOST_ADDR_WIDTH : integer ;
+             SLAVE_DATA_WIDTH : integer ;
+             HOST_DATA_WIDTH : integer ;
+             SLAVE_ADDR_WIDTH : integer ;
+             ADDRESSING_MODE : string );
+
+         port (
+             -- System CLK/RST
+             apb_pclk_i     : in  std_logic;
+             apb_resetn_i   : in  std_logic;
+             -- APB Signals
+             apb_addr_i     : in  std_logic_vector(HOST_ADDR_WIDTH-1 downto 0);
+             apb_pselx_i    : in  std_logic;
+             apb_penable_i  : in  std_logic;
+             apb_pwrite_i   : in  std_logic;
+             apb_pwdata_i   : in  std_logic_vector(HOST_DATA_WIDTH-1 downto 0);
+             apb_pready_o   : out std_logic;
+             apb_prdata_o   : out std_logic_vector(HOST_DATA_WIDTH-1 downto 0);
+             apb_pslverr_o  : out std_logic;
+
+             -- Wishbone Signals
+             wb_clk_o    : out std_logic;
+             wb_rst_o    : out std_logic;
+             wb_cyc_o    : out std_logic;
+             wb_stb_o    : out std_logic;
+             wb_we_o     : out std_logic;
+             wb_adr_o    : out std_logic_vector(SLAVE_ADDR_WIDTH-1 downto 0);
+             wb_dat_o    : out std_logic_vector(SLAVE_DATA_WIDTH-1 downto 0);
+             wb_dat_i    : in  std_logic_vector(SLAVE_DATA_WIDTH-1 downto 0);
+             wb_ack_i    : in  std_logic;
+
+             -- Interrupts
+             apb_int_o   : out std_logic;
+             wb_int_i    : in std_logic );
+
+    end component;
+
+  -- Dummy RAM for testing the WB side.
+    component wb_target_mem
+         generic (
+            SLAVE_ADDR_WIDTH : integer ;
+            SLAVE_DATA_WIDTH : integer );
+         port (
+            wb_clk_i : in std_logic ;
+            wb_rst_i : in std_logic ;
+            wb_cyc_i : in std_logic ;
+            wb_stb_i : in std_logic ;
+            wb_we_i  : in std_logic ;
+            wb_adr_i : in std_logic_vector(SLAVE_ADDR_WIDTH-1 downto 0) ;
+            wb_dat_i : in std_logic_vector(SLAVE_DATA_WIDTH-1 downto 0) ; -- Data from master (for writes)
+            wb_dat_o : out std_logic_vector(SLAVE_DATA_WIDTH-1 downto 0) ; -- Data to master (for reads)
+            wb_ack_o : out std_logic;
+            wb_int_o : out std_logic );  -- Interrupt output
+
+    end component;
+
+    component apb_host_stim
+        generic (
+            HOST_ADDR_WIDTH : integer := HOST_ADDR_BITS;
+            HOST_DATA_WIDTH : integer := HOST_DATA_BITS;
+            SLAVE_ADDR_WIDTH : integer := WB_ADDR_BITS;
+            SLAVE_DATA_WIDTH : integer := WB_DATA_BITS );
+        port (
+            pclk_i    : in std_logic;
+            penable_o : out std_logic;
+            presetn_i : in std_logic;
+            paddr_o   : out std_logic_vector(HOST_ADDR_WIDTH-1 downto 0);
+            pwdata_o  : out std_logic_vector(HOST_DATA_WIDTH-1 downto 0);
+            pready_i  : in std_logic;
+            pselx_o   : out std_logic;
+            pwrite_o  : out std_logic;
+            test_adv  : in std_logic;
+            ack_err_o : out std_logic;
+            done_o    : out std_logic );
+    end component;
+
+    procedure wait_until_rising_edges(signal clk : in std_logic; n : in integer) is
+    begin
+        for i in 1 to n loop
+            wait until rising_edge(clk);
+        end loop;
+    end procedure;
+
+begin
+    --------------------------------------------------------------------
+    -- Instantiate the apb_wb_bridge with the specified generic values.
+    --------------------------------------------------------------------
+    uut_bridge: apb_wb_bridge generic map (
+         HOST_ADDR_WIDTH  => HOST_ADDR_BITS,
+         HOST_DATA_WIDTH  => HOST_DATA_BITS,
+         SLAVE_DATA_WIDTH => WB_DATA_BITS,
+         SLAVE_ADDR_WIDTH => WB_ADDR_BITS,
+         ADDRESSING_MODE  => "byte"
+      )
+      port map (
+         apb_pclk_i    => apb_pclk,
+         apb_resetn_i  => apb_resetn,
+         apb_addr_i    => apb_addr,
+         apb_pselx_i   => apb_pselx,
+         apb_penable_i => apb_penable,
+         apb_pwrite_i  => apb_pwrite,
+         apb_pwdata_i  => apb_pwdata,
+         apb_pready_o  => apb_pready,
+         apb_prdata_o  => apb_prdata,
+         apb_pslverr_o => apb_pslverr,
+         wb_clk_o      => wb_clk,
+         wb_rst_o      => wb_rst,
+         wb_cyc_o      => wb_cyc,
+         wb_stb_o      => wb_stb,
+         wb_we_o       => wb_we,
+         wb_adr_o      => wb_adr,
+         wb_dat_i      => wb_dat_miso,
+         wb_dat_o      => wb_dat_mosi,
+         wb_ack_i      => wb_ack,
+         apb_int_o     => apb_int,
+         wb_int_i      => wb_int
+      );
+
+    --------------------------------------------------------------------
+    -- Instantiate the Wishbone target memory.
+    --------------------------------------------------------------------
+    uut_target: wb_target_mem generic map (
+         SLAVE_ADDR_WIDTH => WB_ADDR_BITS,
+         SLAVE_DATA_WIDTH => WB_DATA_BITS )
+      port map (
+         wb_clk_i => wb_clk,
+         wb_rst_i => wb_rst,
+         wb_cyc_i => wb_cyc,
+         wb_stb_i => wb_stb,
+         wb_we_i  => wb_we,
+         wb_adr_i => wb_adr,
+         wb_dat_i => wb_dat_mosi,  -- Data from the bridge (write data)
+         wb_dat_o => wb_dat_miso,  -- Read data goes back to the bridge
+         wb_ack_o => wb_ack,
+         wb_int_o => wb_int );
+
+    uut_host: apb_host_stim generic map (
+        HOST_ADDR_WIDTH => HOST_ADDR_BITS,
+        HOST_DATA_WIDTH => HOST_DATA_BITS,
+        SLAVE_ADDR_WIDTH => WB_ADDR_BITS + 2,
+        SLAVE_DATA_WIDTH => WB_DATA_BITS )
+
+    port map (
+        pclk_i    => apb_pclk,
+        presetn_i => apb_resetn,
+        pready_i  => apb_pready,
+        test_adv  => test_adv,
+        paddr_o   => apb_addr,
+        pwdata_o  => apb_pwdata,
+        pselx_o   => apb_pselx,
+        pwrite_o  => apb_pwrite,
+        ack_err_o => no_ack_error,
+        penable_o => apb_penable,
+        done_o    => done );
+
+    --------------------------------------------------------------------
+    -- Clock Generation: 50MHz clock (period = 20 ns)
+    --------------------------------------------------------------------
+    clock_gen: process
+    begin
+         apb_pclk <= '0';
+         wait for 10 ns;
+         apb_pclk <= '1';
+         wait for 10 ns;
+    end process;
+
+    --------------------------------------------------------------------
+    -- Reset Generation: Hold apb_resetn low for 5 clock cycles, then high.
+    --------------------------------------------------------------------
+    reset_gen: process
+    begin
+         --apb_resetn <= '1';
+         wait for 1 ns;
+          -- 5 clock cycles @20 ns each = 100 ns
+         apb_resetn <= '0';
+         wait until rising_edge(apb_pclk);
+         wait until rising_edge(apb_pclk);
+         --wait_until_rising_edges(apb_pclk, 5);
+         apb_resetn <= '1';
+         wait;
+    end process;
+
+    --------------------------------------------------------------------
+    -- APB Host Transaction Process:
+    --   1. After reset, write bytes 0x00 through 0xFF using APB write transactions.
+    --   2. Wait 12 clock cycles.
+    --   3. Read back each location with APB read transactions.
+    --   4. Write the read data to a text file (one hex number per line, prefixed with "0x").
+    --------------------------------------------------------------------
+    apb_host: process
+       file file_out : text open write_mode is "readback_data.txt";
+       variable line_out  : std.textio.line;
+       variable read_data : std_logic_vector(7 downto 0) := (others => '0') ;
+       variable i : integer;
+    begin
+         --clk_enable <= '0';
+         --wait for 35 ns;
+         --clk_enable <= '1';
+         wait until apb_resetn = '1';
+
+         -- Write phase
+         -- Kick off state machine into write process.
+         test_adv <= '1';
+         wait until rising_edge(apb_pclk);
+         test_adv <= '0';
+         wait until rising_edge(apb_pclk);
+         wait until apb_pwrite = '0';
+         ----------------------------------------------------------------
+         -- Read Phase: Read back the 256 locations.
+         ----------------------------------------------------------------
+         while done /= '1' loop
+         wait_until_rising_edges(apb_pclk, 8);
+         test_adv <= '1';
+         wait until rising_edge(apb_pclk);
+         test_adv <= '0';
+             -- Access phase for read.
+            if apb_penable <= '1' then
+               wait until rising_edge(apb_pclk);
+               while apb_pready /= '1' loop
+                   wait until rising_edge(apb_pclk);
+               end loop;
+
+               -- Capture the read data (from the lower 8 bits).
+               read_data := apb_prdata(7 downto 0);
+               --read_int <= to_integer(unsigned(read_data));
+               -- Write the data to the output file in hex (e.g. "0x1A").
+               write(line_out, string'("0x"));
+               work.io_utils.write(line_out, to_integer(unsigned(read_data)), right, 4, hex, false);
+               writeline(file_out, line_out);
+            end if;
+         end loop;
+         wait;  -- End of simulation.
+    end process;
+
+end sim;

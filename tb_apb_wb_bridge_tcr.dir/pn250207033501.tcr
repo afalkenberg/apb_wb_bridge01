@@ -1,0 +1,9 @@
+#Start recording tcl command: 2/7/2025 03:25:18
+#Project Location: C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge; Project name: tb_apb_wb_bridge
+prj_project new -name "tb_apb_wb_bridge" -impl "impl1" -dev LCMXO2-7000HC-4TG144C -synthesis "synplify"
+file copy -force -- "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/apb_wb_bridge.vhd" "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/tb_apb_wb_bridge.vhd" "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/wb_target_mem.vhd" "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/impl1/source"
+prj_src add "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/impl1/source/apb_wb_bridge.vhd" "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/impl1/source/tb_apb_wb_bridge.vhd" "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/impl1/source/wb_target_mem.vhd"
+prj_project save
+prj_src add "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/tb_apb_wb_bridge_questa/tb_apb_wb_bridge_questa.spf"
+prj_src add "C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/tb_apb_wb_bridge_questa/tb_apb_wb_bridge_questa.spf"
+#Stop recording: 2/7/2025 03:35:01

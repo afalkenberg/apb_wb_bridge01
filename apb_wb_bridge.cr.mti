@@ -1,0 +1,49 @@
+{C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/wb_target_mem.vhd} {1 {vcom -work work -2002 -explicit -vopt -stats=none {C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/wb_target_mem.vhd}
+Questa Lattice OEM Edition-64 vcom 2024.2 Compiler 2024.05 May 20 2024
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity wb_target_mem
+-- Compiling architecture Behavioral of wb_target_mem
+
+} {} {}} {C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/tb_apb_wb_bridge.vhdtst} {1 {vcom -work work -2002 -explicit -vopt -stats=none {C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/tb_apb_wb_bridge.vhdtst}
+Questa Lattice OEM Edition-64 vcom 2024.2 Compiler 2024.05 May 20 2024
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package io_utils
+-- Compiling entity tb_apb_wb_bridge
+-- Compiling architecture sim of tb_apb_wb_bridge
+
+} {} {}} {C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/apb_wb_bridge.vhd} {1 {vcom -work work -2002 -explicit -vopt -stats=none {C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/apb_wb_bridge.vhd}
+Questa Lattice OEM Edition-64 vcom 2024.2 Compiler 2024.05 May 20 2024
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity apb_wb_bridge
+-- Compiling architecture Behavioral of apb_wb_bridge
+
+} {} {}} {C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/apb_host_stim.vhd} {1 {vcom -work work -2002 -explicit -vopt -stats=none {C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/apb_host_stim.vhd}
+Questa Lattice OEM Edition-64 vcom 2024.2 Compiler 2024.05 May 20 2024
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity apb_host_stim
+-- Compiling architecture behavioral of apb_host_stim
+
+} {} {}} {C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/io_utils.vhd} {1 {vcom -work work -2002 -explicit -vopt -stats=none {C:/ECAD/FPGA_Designs/IP Cores/apb_wb_bridge/io_utils.vhd}
+Questa Lattice OEM Edition-64 vcom 2024.2 Compiler 2024.05 May 20 2024
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Compiling package io_utils
+-- Compiling package body io_utils
+-- Loading package io_utils
+-- Compiling entity test
+-- Loading package io_utils
+-- Compiling architecture hex_test of test
+
+} {} {}}
